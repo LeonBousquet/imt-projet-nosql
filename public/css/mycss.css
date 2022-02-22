@@ -1,0 +1,39 @@
+body {
+  margin-top: 7em;
+}
+
+.btn {
+  width: 100% !important;
+}
+
+.resultBloc {
+  display: flex;
+  flex-direction: column;
+}
+
+.divResultMessage {
+  display: flex;
+  flex-direction: row;
+}
+
+.divResultMessageText {
+  flex-grow: 1;
+  max-height: 100px;
+  overflow: auto;
+}
+
+.divResultTimming {
+  display: flex;
+  flex-direction: row;
+}
+
+.divResultTimmingText {
+  flex-grow: 1;
+}
+
+.spinner {
+  position: absolute;
+  left: 107px;
+  bottom: 25px;
+  display: none;
+}

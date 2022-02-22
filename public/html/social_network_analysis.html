@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link href="./css/mycss.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="#">
+  <title>Projet NoSQL BOUSQUET Leon - DUCA Arthur</title>
+</head>
+
+<body>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container d-flex justify-content-center">
+      <div class="row">
+        <div class="col">
+          <h4>Choix de la base : </h4>
+          <div class="d-inline-block me-1">SQL</div>
+          <div class="form-check form-switch d-inline-block">
+            <input type="checkbox" checked class="form-check-input" id="bddSelected" style="cursor: pointer;">
+            <label for="bddSelected" class="form-check-label">Neo4J</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <nav class="nav nav-tabs">
+      <a class="nav-item nav-link active" href="#initialisation" data-toggle="tab">Initialisation</a>
+      <a class="nav-item nav-link" href="#manipulations" data-toggle="tab">Manipulations des bases</a>
+    </nav>
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="initialisation">
+        <div id="initCard" class="card border-dark mt-3">
+          <div class="card-header">Initialisation</div>
+          <div class="card-body">
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <form id="structureInjection">
+                    <button onclick="structureInjection()" type="button" class="btn btn-outline-success mt-2">
+                      Initialiser la base SQL 
+                      <span class="spinner-border spinner spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+                  </form>
+                </div>
+                <div class="col">
+                  <form id="cleanDataBase">
+                    <button id="cleanBDDButton" onclick="cleanBDD()" type="button" class="btn btn-outline-danger mt-2">
+                      Vider la base de données
+                      <span class="spinner-border spinner spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer" style="padding-top: 0px">
+            <h5 class="card-title">Résultats :</h5>
+            <div class="resultBloc">
+              <div class="divResultMessage">
+                <h6 class="titleResultMessage">Message :</h6>
+                <div class="divResultMessageText">
+                </div>
+              </div>
+              <div class="divResultTimming">
+                <h6 class="titleResultTimming">Duration :</h6>
+                <div class="divResultTimmingText">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="manipulations">
+        <div id="insertCard" class="card border-dark mt-3">
+          <div class="card-header">Insertion</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <form id="insertion">
+                  <div class="form-group">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col">
+                          <label>Je souhaite insérer</label>
+                        </div>
+                        <div class="col">
+                          <select id="valueSelect" class="form-select" aria-label="select nombre">
+                            <option selected value="1000">1000</option>
+                            <option value="10000">10000</option>
+                            <option value="100000">100000</option>
+                            <option value="1000000">1000000</option>
+                          </select>
+                        </div>
+                        <div class="col">
+                          <select id="entitySelect" class="form-select" aria-label="select entite">
+                            <option selected value="personnes">personnes</option>
+                            <option value="produits">produits</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button id="insertButton" type="button" class="btn btn-outline-success mt-2">
+                    Exécuter
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer" style="padding-top: 0px">
+            <h5 class="card-title">Résultats :</h5>
+            <div class="resultBloc">
+              <div class="divResultMessage">
+                <h6 class="titleResultMessage">Message :</h6>
+                <div class="divResultMessageText">
+                </div>
+              </div>
+              <div class="divResultTimming">
+                <h6 class="titleResultTimming">Duration :</h6>
+                <div class="divResultTimmingText">
+
+                </div>
+              </div>
+              <div class="spinner-border text-success spinner" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ####################################################################################### -->
+        <!--                                        INDEXATION                                       -->
+        <!-- ####################################################################################### -->
+
+        <div id="indexCard" class="card border-dark mt-3">
+          <div class="card-header">Indexer la base de donnée</div>
+          <div class="card-body">
+            <form>
+              <div class="mt-2"><b>Index pour la base de donnée SQL</b></div>
+
+              <div class="row">
+                <div class="col" style="flex: 1 25%">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switchPersonLastNameSQL"
+                      onchange="indexLastName()">
+                    <label class="custom-control-label" for="switchPersonLastNameSQL">Nom personne</label>
+                  </div>
+                </div>
+
+                <div class="col" style="flex: 1 25%">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switchPersonFirstNameSQL"
+                      onchange="indexFirstName()">
+                    <label class="custom-control-label" for="switchPersonFirstNameSQL">Prenom personne</label>
+                  </div>
+                </div>
+
+                <div class="col" style="flex: 1 25%">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switchProductNameSQL"
+                      onchange="indexProductName()">
+                    <label class="custom-control-label" for="switchProductNameSQL">Nom produit</label>
+                  </div>
+                </div>
+
+                <div class="col" style="flex: 1 25%">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switchRelationshipSQL"
+                      onchange="indexRelationPerson()">
+                    <label class="custom-control-label" for="switchRelationshipSQL">La relation</label>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer" style="padding-top: 0px">
+            <h5 class="card-title">Résultats :</h5>
+            <div class="resultBloc">
+              <div class="divResultMessage">
+                <h6 class="titleResultMessage">Message :</h6>
+                <div class="divResultMessageText">
+                </div>
+              </div>
+              <div class="divResultTimming">
+                <h6 class="titleResultTimming">Duration :</h6>
+                <div class="divResultTimmingText">
+                </div>
+              </div>
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ####################################################################################### -->
+        <!--                                        RECHERCHE                                        -->
+        <!-- ####################################################################################### -->
+        </br>
+        <nav class="nav nav-tabs">
+          <a class="nav-item nav-link active" href="#req1" data-toggle="tab">Requête 1</a>
+          <a class="nav-item nav-link" href="#req2" data-toggle="tab">Requête 2</a>
+          <a class="nav-item nav-link" href="#req3" data-toggle="tab">Requête 3</a>
+        </nav>
+        <div id="researchCard" class="card border-dark mt-3 mb-5">
+          <div class="card-header">Requêtes en base de données</div>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="req1">
+              <div class="card-body">
+                <div class="row mt-3">
+                  <div class="col" style="flex: 1 33%">
+                    <div class="card-title"><b>Obtenir la liste et le nombre des produits commandés par les cercles de
+                        followers d’un individu</b>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col">
+                          <p value="" class="randomUserFirstName" id="randomUserFirstName1">Prénom :</p>
+                        </div>
+                        <div class="col">
+                          <p  value="" class="randomUserLastName" id="randomUserLastName1">Nom :</p>
+                        </div>
+                        <div class="col">
+                          <button onclick="onclickButtonRandomUser()" type="button"
+                            class="randomUser btn btn-outline-success mt-2">
+                            Cliquez pour charger un utilisateur
+                          </button>
+                        </div>
+                      </div>
+                      <label for="inputDeepRequete1">Quel profondeur ?</label>
+                      <input type="number" class="form-control" id="inputDeepRequete1"
+                        placeholder="Saisir un nombre de couche" />
+                    </div>
+                    <div class="mt-2">
+                      <button type="button" class="btn btn-outline-primary btn-block mt-2"
+                        onclick="formGetProductByPerson()">
+                        Exécuter la requête
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="req2">
+              <div class="card-body">
+                <div class="row mt-3">
+                  <div class="col" style="flex: 1 33%">
+                    <div class="form-group">
+                      <div class="card-title"><b>Pour un produit donnez, obtenir le nombre de personnes l’ayant
+                          commandé dans un cercle de followers</b>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <p value="" class="randomProductName" id="randomProductName1">Nom du produit :</p>
+                        </div>
+                        <div class="col">
+                          <button onclick="onclickButtonRandomProduct()" type="button"
+                            class="randomUser btn btn-outline-success mt-2">
+                            Cliquez pour charger un produit
+                          </button>
+                        </div>
+                      </div>
+                      <label for="inputDeepRequete3">Quel profondeur ?</label>
+                      <input type="number" class="form-control" id="inputDeepRequete3"
+                        placeholder="Saisir un nombre de couche" />
+                    </div>
+                    <div class="mt-2">
+                      <button type="button" class="btn btn-outline-primary btn-block mt-2"
+                        onclick="formGetPersonWithProduct()">
+                        Exécuter la requête
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="req3">
+              <div class="card-body">
+                <div class="row mt-3">
+                  <div class="col" style="flex: 1 33%">
+                    <div class="form-group">
+                      <div class="card-title"><b>Obtenir la liste et le nombre des produits commandés par les cercles
+                          de
+                          followers d’un individu pour un produit spécifique</b>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <p value="" class="randomUserFirstName" id="randomUserFirstName2">Prénom :</p>
+                        </div>
+                        <div class="col">
+                          <p value="" class="randomUserLastName" id="randomUserLastName2">Nom :</p>
+                        </div>
+                        <div class="col">
+                          <button onclick="onclickButtonRandomUser()" type="button"
+                            class="randomUser btn btn-outline-success mt-2">
+                            Cliquez pour charger un utilisateur
+                          </button>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <p value="" class="randomProductName" id="randomProductName2">Nom du produit :</p>
+                        </div>
+                        <div class="col">
+                          <button onclick="onclickButtonRandomProduct()" type="button"
+                            class="randomUser btn btn-outline-success mt-2">
+                            Cliquez pour charger un produit
+                          </button>
+                        </div>
+                      </div>
+                      <label for="inputDeepRequete2">Quelle profondeur ?</label>
+                      <input type="number" class="form-control" id="inputDeepRequete2" aria-describedby="emailHelp"
+                        placeholder="Saisir un nombre de couche" />
+                    </div>
+                    <div class="mt-2">
+                      <button type="button" class="btn btn-outline-primary btn-block mt-2"
+                        onclick="formGetProductWithProductAndPerson()">
+                        Exécuter la requête
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer" style="padding-top: 0px">
+            <h5 class="card-title">Résultats :</h5>
+            <div class="resultBloc">
+              <div class="divResultMessage">
+                <h6 class="titleResultMessage">Message :</h6>
+                <div class="divResultMessageText">
+                </div>
+              </div>
+              <div class="divResultTimming">
+                <h6 class="titleResultTimming">Duration :</h6>
+                <div class="divResultTimmingText">
+
+                </div>
+              </div>
+              <div class="spinner-border text-success spinner" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Balise de fin -->
+    </div>
+</body>
+<script src="./js/social_network_analysis.js"></script>
+
+</html>
