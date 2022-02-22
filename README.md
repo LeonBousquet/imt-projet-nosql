@@ -10,9 +10,14 @@ DUCA Arthur - BOUSQUET Léon
 
 ## Lancement du projet
 
-    - Naviguer dans le dossier "docker" et exécuter : `docker compose up -d`
-    - Revenir à la racine et exécuter : `npm run start`
+    - A la racine du projet, exécuter : `docker compose up -d`
+    - Puis exécuter : `npm run start`
     - Aller sur : localhost:3000
+
+
+## Arrêter le projet
+
+    - Dans le terminal encore ouvert, faire CTRL + C puis exécuter : `docker compose down`
 
 
 ## Bases de données
