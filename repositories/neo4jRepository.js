@@ -13,14 +13,6 @@ const driver = neo4j.driver(
 );
 const session = driver.session();
 
-/********  Retourner le plus grand ID d'une personne ********/
-const getPersonHighestID = async function () {
-  const result = await session.run("MATCH (p:Person) RETURN MAX(p.id)");
-  const singleRecord = result.records[0];
-  const node = singleRecord.get(0);
-  return node;
-};
-
 const GetRandomPerson = async function () {
   const result = await session.run("MATCH (p:Person) RETURN p order by rand() limit 1");
   const singleRecord = result.records[0];
@@ -41,37 +33,12 @@ const GetRandomProduct = async function () {
   };
 };
 
-/********  Retourner toute la base de données ********/
-const test = function () {
-  session
-    .run("Match(n) RETURN n")
-    .then(function (result) {
-      console.log(result.records);
-      session.close();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-};
 
 /********  Ajouter un nb de personnes ********/
 const CreatePerson = async function (nb) {
   var i, j;
   try {
     var start_create = +new Date();
-    // Version non optimisé sans les transactions
-    // for (i = 0; i < nb; i++)
-    //   await session.run(
-    //     "CREATE (a:Person {firstName:$firstName, lastName:$lastName}) RETURN a",
-    //     {
-    //       //id: i+1,
-    //       firstName: services.generateString(),
-    //       lastName: services.generateString(),
-    //     }
-    //   );
-
-    // https://neo4j.com/docs/driver-manual/1.7/sessions-transactions/
-    // Version optimisé avec les transactions
     for (i = 0; i < nb / 1000; i++) {
       const transactionSession = driver.session();
       const writeTxPromise = await transactionSession.writeTransaction((tx) => {
@@ -79,20 +46,12 @@ const CreatePerson = async function (nb) {
           tx.run(
             "CREATE (a:Person {firstName:$firstName, lastName:$lastName}) RETURN a",
             {
-              //id: i+1,
               firstName: services.generateString(),
               lastName: services.generateString(),
             }
           );
         }
       });
-      //writeTxPromise.then((result) => {
-      //   transactionSession.close();
-
-      //   if (result) {
-      //     console.log("Person created");
-      //   }
-      // });
       transactionSession.close();
     }
 
@@ -103,12 +62,9 @@ const CreatePerson = async function (nb) {
     /* Ajout des relations */
     var start_relation = +new Date();
     var result = await session.run(
-      ` WITH range(0,20) as followersRange
-          MATCH (f:Person)
-          WITH DISTINCT collect(f) as followers, followersRange
-          MATCH (i:Person)
-          WITH i, apoc.coll.randomItems(followers, apoc.coll.randomItem(followersRange)) as followers
-          FOREACH (follower in followers | CREATE (follower)-[:Relation]->(i))
+      ` MATCH (f:Person) WITH DISTINCT collect(f) as followers, range(0,20) as followersRange
+        MATCH (i:Person) WITH i, apoc.coll.randomItems(followers, apoc.coll.randomItem(followersRange)) as followers
+        FOREACH (follower in followers | CREATE (follower)-[:Relation]->(i))
         `
     );
     var end_relation = +new Date();
@@ -154,13 +110,6 @@ const CreateProduct = async function (nb) {
     }
 
     var start_create = +new Date();
-    // for (i = 0; i < nb; i++)
-    //   await session.run(
-    //     "CREATE (a:Product {productName:$productName}) RETURN a",
-    //     {
-    //       productName: services.generateString(),
-    //     }
-    //   );
     for (i = 0; i < nb / 100; i++) {
       const transactionSession = driver.session();
       const writeTxPromise = await transactionSession.writeTransaction((tx) => {
@@ -170,12 +119,6 @@ const CreateProduct = async function (nb) {
           });
         }
       });
-      // writeTxPromise.then((result) => {
-      //   if (result) {
-      //     console.log("Person created");
-      //   }
-      //   transactionSession.close();
-      // });
       transactionSession.close();
     }
     var end_create = +new Date();
@@ -393,7 +336,6 @@ module.exports = {
   GetProductListeByPerson,
   GetProductListeWithProductAndPerson,
   GetPersonListeWithPerson,
-  test,
   GetRandomPerson,
   GetRandomProduct
 };

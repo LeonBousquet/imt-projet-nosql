@@ -4,13 +4,12 @@ var router = express.Router();
 const mySQLRepository = require("../repositories/mysqlRepository");
 const neo4jRepository = require("../repositories/neo4jRepository");
 
-/* GET home page. */
 router.get("/", function (req, res, next) {
   res.redirect("/projet-nosql");
 });
 
 router.get("/projet-nosql", function (req, res) {
-  res.sendFile(path.resolve("public/html/social_network_analysis.html"));
+  res.sendFile(path.resolve("public/html/imt-projet-nosql.html"));
 });
 
 router.get("/test", function (req, res) {

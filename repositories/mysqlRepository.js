@@ -272,7 +272,7 @@ const insertProducts = async function(nbProducts) {
     if (nbProducts <= 5) {
         return {
             "status" : 409,
-            "data" : "Vous devez insérer plus de 5 produits car une personne doit pouvoir être lié à 5 produits différents",
+            "data" : "Vous devez insérer plus de 5 produits car une personne doit pouvoir être liée à 5 produits différents",
             "time" : null
         }
     } 
@@ -833,6 +833,7 @@ const GetRandomPerson = async function() {
         }
     }
 }
+
 
 const GetRandomProduct = async function() {
 
