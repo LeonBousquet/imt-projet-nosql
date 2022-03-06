@@ -34,7 +34,6 @@ const GetRandomProduct = async function () {
 };
 
 
-/********  Ajouter un nb de personnes ********/
 const CreatePerson = async function (nb) {
   var i, j;
   try {
@@ -57,9 +56,6 @@ const CreatePerson = async function (nb) {
 
     var end_create = +new Date();
 
-    console.log("Start Relation");
-
-    /* Ajout des relations */
     var start_relation = +new Date();
     var result = await session.run(
       ` MATCH (f:Person) WITH DISTINCT collect(f) as followers, range(0,20) as followersRange
@@ -92,11 +88,9 @@ const CreatePerson = async function (nb) {
   }
 };
 
-/********  Ajouter un nb de produits ********/
 const CreateProduct = async function (nb) {
   var i, j;
   try {
-    // Vérification si il y a des personnes
     var result = await session.run("MATCH (p:Person) RETURN COUNT(p)");
     var singleRecord = result.records[0];
     var node = singleRecord.get(0);
@@ -123,8 +117,6 @@ const CreateProduct = async function (nb) {
     }
     var end_create = +new Date();
 
-    console.log("Start Purchase");
-
     var start_relation = +new Date();
     var result = await session.run(
       ` WITH range(0,5) as ProductsRange
@@ -137,7 +129,6 @@ const CreateProduct = async function (nb) {
     );
     var end_relation = +new Date();
 
-    console.log("Purchase ok");
 
     var temps_creation = end_create - start_create;
     var temps_relation = end_relation - start_relation;
@@ -165,7 +156,7 @@ const CreateProduct = async function (nb) {
   }
 };
 
-/********  Requete 1 : Liste + nombre produit acheter par les personnes suivant un influenceur ********/
+/********  Requete 1 ********/
 const GetProductListeByPerson = async function (
   firstName,
   lastName,
@@ -215,7 +206,7 @@ const GetProductListeByPerson = async function (
   }
 };
 
-/********  Requete 2 : Obtenir la liste et le nombre des produits commandés par les cercles de followers d’un individu pour un produit spécifique ********/
+/********  Requete 2  ********/
 const GetProductListeWithProductAndPerson = async function (
   firstName,
   lastName,
@@ -274,7 +265,7 @@ const GetProductListeWithProductAndPerson = async function (
   }
 };
 
-/********  Requete 3 : Pour un produit donnez, obtenir le nombre de personnes l’ayant commandé dans un cercle de followers ********/
+/********  Requete 3 ********/
 const GetPersonListeWithPerson = async function (productName, profondeur) {
   try {
     var start = +new Date();

@@ -1,7 +1,7 @@
 var express = require("express");
 const path = require("path");
 var router = express.Router();
-const mySQLRepository = require("../repositories/mysqlRepository");
+const SQLRepository = require("../repositories/sqlRepository");
 const neo4jRepository = require("../repositories/neo4jRepository");
 
 router.get("/", function (req, res, next) {
@@ -16,8 +16,8 @@ router.get("/test", function (req, res) {
   neo4jRepository.test();
 });
 
-router.delete("/mysql/structure", async function (req, res) {
-  var repoResponse = await mySQLRepository.cleanBDD();
+router.delete("/sql/structure", async function (req, res) {
+  var repoResponse = await SQLRepository.cleanBDD();
 
   switch (repoResponse.status) {
     case 200:
@@ -32,8 +32,8 @@ router.delete("/mysql/structure", async function (req, res) {
   }
 });
 
-router.post("/mysql/product/:nbProducts", async function (req,res) {
-  var repoResponse = await mySQLRepository.insertProducts(req.params.nbProducts);
+router.post("/sql/product/:nbProducts", async function (req,res) {
+  var repoResponse = await SQLRepository.insertProducts(req.params.nbProducts);
 
   switch (repoResponse.status) {
     case 201:
@@ -48,8 +48,8 @@ router.post("/mysql/product/:nbProducts", async function (req,res) {
   }
 })
 
-router.post("/mysql/person/:nbPerson", async function (req, res) {
-  var repoResponse = await mySQLRepository.insertPerson(req.params.nbPerson);
+router.post("/sql/person/:nbPerson", async function (req, res) {
+  var repoResponse = await SQLRepository.insertPerson(req.params.nbPerson);
 
   switch (repoResponse.status) {
     case 200:
@@ -64,8 +64,8 @@ router.post("/mysql/person/:nbPerson", async function (req, res) {
   }
 });
 
-router.post("/mysql/index/lastname", async function (req,res) {
-  var repoResponse = await mySQLRepository.insertLastNameIndex();
+router.post("/sql/index/lastname", async function (req,res) {
+  var repoResponse = await SQLRepository.insertLastNameIndex();
 
   switch (repoResponse.status) {
     case 201:
@@ -80,8 +80,8 @@ router.post("/mysql/index/lastname", async function (req,res) {
   }
 })
 
-router.post("/mysql/index/firstname", async function (req,res) {
-  var repoResponse = await mySQLRepository.insertFirstNameIndex();
+router.post("/sql/index/firstname", async function (req,res) {
+  var repoResponse = await SQLRepository.insertFirstNameIndex();
 
   switch (repoResponse.status) {
     case 201:
@@ -96,8 +96,8 @@ router.post("/mysql/index/firstname", async function (req,res) {
   }
 })
 
-router.post("/mysql/index/productname", async function (req,res) {
-  var repoResponse = await mySQLRepository.insertProductNameIndex();
+router.post("/sql/index/productname", async function (req,res) {
+  var repoResponse = await SQLRepository.insertProductNameIndex();
 
   switch (repoResponse.status) {
     case 201:
@@ -112,8 +112,8 @@ router.post("/mysql/index/productname", async function (req,res) {
   }
 })
 
-router.post("/mysql/index/relation", async function (req,res) {
-  var repoResponse = await mySQLRepository.insertRelationIndex();
+router.post("/sql/index/relation", async function (req,res) {
+  var repoResponse = await SQLRepository.insertRelationIndex();
 
   switch (repoResponse.status) {
     case 201:
@@ -128,8 +128,8 @@ router.post("/mysql/index/relation", async function (req,res) {
   }
 })
 
-router.delete("/mysql/index/lastname", async function (req,res) {
-  var repoResponse = await mySQLRepository.deleteLastNameIndex();
+router.delete("/sql/index/lastname", async function (req,res) {
+  var repoResponse = await SQLRepository.deleteLastNameIndex();
 
   switch (repoResponse.status) {
     case 200:
@@ -144,8 +144,8 @@ router.delete("/mysql/index/lastname", async function (req,res) {
   }
 })
 
-router.delete("/mysql/index/firstname", async function (req,res) {
-  var repoResponse = await mySQLRepository.deleteFirstNameIndex();
+router.delete("/sql/index/firstname", async function (req,res) {
+  var repoResponse = await SQLRepository.deleteFirstNameIndex();
 
   switch (repoResponse.status) {
     case 200:
@@ -160,8 +160,8 @@ router.delete("/mysql/index/firstname", async function (req,res) {
   }
 })
 
-router.delete("/mysql/index/productname", async function (req,res) {
-  var repoResponse = await mySQLRepository.deleteProductNameIndex();
+router.delete("/sql/index/productname", async function (req,res) {
+  var repoResponse = await SQLRepository.deleteProductNameIndex();
 
   switch (repoResponse.status) {
     case 200:
@@ -176,8 +176,8 @@ router.delete("/mysql/index/productname", async function (req,res) {
   }
 })
 
-router.delete("/mysql/index/relation", async function (req,res) {
-  var repoResponse = await mySQLRepository.deleteRelationIndex();
+router.delete("/sql/index/relation", async function (req,res) {
+  var repoResponse = await SQLRepository.deleteRelationIndex();
 
   switch (repoResponse.status) {
     case 200:
@@ -227,7 +227,7 @@ router.get("/create-product-neo4j/:variable", async function (req, res) {
 });
 
 router.get("/inject", async function (req, res) {
-  var repoResponse = await mySQLRepository.DefineStructure();
+  var repoResponse = await SQLRepository.DefineStructure();
 
   switch (repoResponse.status) {
     case 200:
@@ -242,8 +242,8 @@ router.get("/inject", async function (req, res) {
   }
 });
 
-router.get("/get-person-mysql/", async function (req, res) {
-  var repoResponse = await mySQLRepository.GetRandomPerson();
+router.get("/get-person-sql/", async function (req, res) {
+  var repoResponse = await SQLRepository.GetRandomPerson();
   switch (repoResponse.status) {
     case 200:
       res.status(200).send(repoResponse);
@@ -257,8 +257,8 @@ router.get("/get-person-mysql/", async function (req, res) {
   }
 });
 
-router.get("/get-product-mysql/", async function (req, res) {
-  var repoResponse = await mySQLRepository.GetRandomProduct();
+router.get("/get-product-sql/", async function (req, res) {
+  var repoResponse = await SQLRepository.GetRandomProduct();
   switch (repoResponse.status) {
     case 200:
       res.status(200).send(repoResponse);
@@ -322,8 +322,8 @@ router.get("/get-product-by-person-neo4j/", async function (req, res) {
   }
 });
 
-router.get("/mysql/get-product-by-person/", async function (req, res) {
-  var repoResponse = await mySQLRepository.GetProductsByPersonAndRelationship(
+router.get("/sql/get-product-by-person/", async function (req, res) {
+  var repoResponse = await SQLRepository.GetProductsByPersonAndRelationship(
     req.query.firstName,
     req.query.lastName,
     req.query.profondeur
@@ -341,8 +341,8 @@ router.get("/mysql/get-product-by-person/", async function (req, res) {
   }
 });
 
-router.get("/mysql/get-product-virality/", async function (req, res) {
-  var repoResponse = await mySQLRepository.getProductVirality(
+router.get("/sql/get-product-virality/", async function (req, res) {
+  var repoResponse = await SQLRepository.getProductVirality(
     req.query.productName,
     req.query.profondeur
   );
@@ -400,7 +400,7 @@ router.get(
   }
 );
 
-router.get("/mysql/get-product-by-person-and-product", async function (req, res) {
+router.get("/sql/get-product-by-person-and-product", async function (req, res) {
   var repoResponse = await mySQLRepository.GetProductPopularityForPersonAndRelationship(
     req.query.firstName,
     req.query.lastName,

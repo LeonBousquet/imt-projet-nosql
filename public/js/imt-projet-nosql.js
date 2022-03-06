@@ -176,12 +176,10 @@ function thirdRequestReadable(mySQLResponse, profondeur, firstName, lastName) {
   return mySQLResponse
 }
 
-// ============================================================================================
-//                              Fonction d'appel des routes
-// ============================================================================================
+
 async function getRandomUserSQL() {
   spinnerOn()
-  var response = await axios.get("http://localhost:3000/get-person-mysql/")
+  var response = await axios.get("http://localhost:3000/get-person-sql/")
     .then(function (response) {
       return writeUserInfos(response.data.data);
     })
@@ -210,7 +208,7 @@ async function getRandomUserNeo4J() {
 async function getRandomProductSQL() {
   spinnerOn()
   var response = await axios
-    .get("http://localhost:3000/get-product-mysql/")
+    .get("http://localhost:3000/get-product-sql/")
     .then(function (response) {
       return writeProduct(response.data.data);
     })
@@ -237,7 +235,7 @@ async function getRandomProductNeo4J() {
   return response;
 }
 
-async function generateMySQLSchema() {
+async function generateSQLSchema() {
   spinnerOn()
   var response = await axios
     .get("http://localhost:3000/inject")
@@ -252,10 +250,10 @@ async function generateMySQLSchema() {
   return response;
 }
 
-async function cleanMySQLBDD() {
+async function cleanSQLBDD() {
   spinnerOn()
   var response = await axios
-    .delete("/mysql/structure")
+    .delete("/sql/structure")
     .then(function (response) {
       return response.data;
     })
@@ -287,7 +285,7 @@ async function cleanNeo4jBDD() {
 async function addPersonsToMySQL(nbPerson) {
   spinnerOn()
   var response = await axios
-    .post("/mysql/person/" + nbPerson,{},{timeout: 0})
+    .post("/sql/person/" + nbPerson,{},{timeout: 0})
     .then(function (response) {
       return response.data;
     })
@@ -304,10 +302,10 @@ async function addPersonsToMySQL(nbPerson) {
     return response;
 }
 
-async function addProductsToMySQL(nbProduct) {
+async function addProductsToSQL(nbProduct) {
   spinnerOn()
   var response = await axios
-    .post("/mysql/product/"+nbProduct)
+    .post("/sql/product/"+nbProduct)
     .then(function (response) {
       return response.data;
     })
@@ -323,7 +321,7 @@ async function addProductsToMySQL(nbProduct) {
     return response;
 }
 
-// --------------------------------------------------------------------------------------------
+
 async function addPersonToNeo4j(nb) {
   spinnerOn()
   var response = await axios
@@ -339,7 +337,6 @@ async function addPersonToNeo4j(nb) {
   return response;
 }
 
-// --------------------------------------------------------------------------------------------
 async function addProductToNeo4j(nb) {
   spinnerOn()
   var response = await axios
@@ -354,7 +351,7 @@ async function addProductToNeo4j(nb) {
   spinnerOff()
   return response;
 }
-// --------------------------------------------------------------------------------------------
+
 async function getProductByPersonNeo4j(firstName, lastName, profondeur) {
   spinnerOn()
   var response = await axios
@@ -376,10 +373,10 @@ async function getProductByPersonNeo4j(firstName, lastName, profondeur) {
   return response;
 }
 
-async function getProductByPersonMySQL(firstName, lastName, profondeur) {
+async function getProductByPersonSQL(firstName, lastName, profondeur) {
   spinnerOn()
   var response = await axios
-    .get("http://localhost:3000/mysql/get-product-by-person/", {
+    .get("http://localhost:3000/sql/get-product-by-person/", {
       params: {
         firstName: firstName,
         lastName: lastName,
@@ -398,7 +395,6 @@ async function getProductByPersonMySQL(firstName, lastName, profondeur) {
   return response;
 }
 
-// --------------------------------------------------------------------------------------------
 async function getPersonWithProductNeo4J(productName, profondeur) {
   spinnerOn()
   var response = await axios
@@ -419,10 +415,10 @@ async function getPersonWithProductNeo4J(productName, profondeur) {
   return response;
 }
 
-async function getPersonWithProductMySQL(productName, profondeur) {
+async function getPersonWithProductSQL(productName, profondeur) {
   spinnerOn()
   var response = await axios
-    .get("http://localhost:3000/mysql/get-product-virality/", {
+    .get("http://localhost:3000/sql/get-product-virality/", {
       params: {
         productName: productName,
         profondeur: profondeur,
@@ -439,7 +435,6 @@ async function getPersonWithProductMySQL(productName, profondeur) {
   return response;
 }
 
-// --------------------------------------------------------------------------------------------
 async function getProductWithProductAndPersonNeo4j(
   firstName,
   lastName,
@@ -467,7 +462,7 @@ async function getProductWithProductAndPersonNeo4j(
   return response;
 }
 
-async function getProductWithProductAndPersonMySQL(
+async function getProductWithProductAndPersonSQL(
   firstName,
   lastName,
   productName,
@@ -475,7 +470,7 @@ async function getProductWithProductAndPersonMySQL(
 ) {
   spinnerOn()
   var response = await axios
-    .get("http://localhost:3000/mysql/get-product-by-person-and-product", {
+    .get("http://localhost:3000/sql/get-product-by-person-and-product", {
       params: {
         firstName: firstName,
         lastName: lastName,
@@ -494,11 +489,10 @@ async function getProductWithProductAndPersonMySQL(
   return response;
 }
 
-// --------------------------------------------------------------------------------------------
 async function generateIndexOfLastName() {
     spinnerOn()
     var response = await axios
-    .post("http://localhost:3000/mysql/index/lastname")
+    .post("http://localhost:3000/sql/index/lastname")
     .then(function (response) {
       return response.data;
     })
@@ -514,7 +508,7 @@ async function generateIndexOfFirstName() {
   spinnerOn()
   
   var response = await axios
-  .post("http://localhost:3000/mysql/index/firstname")
+  .post("http://localhost:3000/sql/index/firstname")
   .then(function (response) {
     return response.data;
   })
@@ -532,7 +526,7 @@ async function generateIndexOfProductName() {
   spinnerOn()
 
   var response = await axios
-  .post("http://localhost:3000/mysql/index/productname")
+  .post("http://localhost:3000/sql/index/productname")
   .then(function (response) {
     return response.data;
   })
@@ -551,7 +545,7 @@ async function generateIndexOfRelation() {
   spinnerOn()
 
   var response = await axios
-  .post("http://localhost:3000/mysql/index/relation")
+  .post("http://localhost:3000/sql/index/relation")
   .then(function (response) {
     return response.data;
   })
@@ -570,7 +564,7 @@ async function deleteIndexOfLastName() {
   spinnerOn()
 
   var response = await axios
-  .delete("http://localhost:3000/mysql/index/lastname")
+  .delete("http://localhost:3000/sql/index/lastname")
   .then(function (response) {
     return response.data;
   })
@@ -589,7 +583,7 @@ async function deleteIndexOfFirstName() {
   spinnerOn()
 
   var response = await axios
-  .delete("http://localhost:3000/mysql/index/firstname")
+  .delete("http://localhost:3000/sql/index/firstname")
   .then(function (response) {
     return response.data;
   })
@@ -608,7 +602,7 @@ async function deleteIndexOfProductName() {
   spinnerOn()
 
   var response = await axios
-  .delete("http://localhost:3000/mysql/index/productname")
+  .delete("http://localhost:3000/sql/index/productname")
   .then(function (response) {
     return response.data;
   })
@@ -627,7 +621,7 @@ async function deleteIndexOfRelation() {
   spinnerOn()
 
   var response = await axios
-  .delete("http://localhost:3000/mysql/index/relation")
+  .delete("http://localhost:3000/sql/index/relation")
   .then(function (response) {
     return response.data;
   })
@@ -643,14 +637,10 @@ async function deleteIndexOfRelation() {
 
 }
 
-// ============================================================================================
-//                              Fonction des boutons du html
-// ============================================================================================
-// --------------------------------------------------------------------------------------------
 async function structureInjection() {
   var formEl = document.forms.structureInjection;
   var formData = new FormData(formEl);
-  var response = await generateMySQLSchema();
+  var response = await generateSQLSchema();
 
   if (response === null) {
     writeResult("Internal problem", "Internal problem");
@@ -716,7 +706,6 @@ async function insertionPersonnes() {
   }
 }
 
-// --------------------------------------------------------------------------------------------
 async function insertionProduits() {
   var formEl = document.forms.insertionProduits;
   var formData = new FormData(formEl);
@@ -726,7 +715,7 @@ async function insertionProduits() {
   var response = null;
   switch (BDD) {
     case "sql":
-      response = await addProductsToMySQL(number);
+      response = await addProductsToSQL(number);
       break;
     case "neo4j":
       response = await addProductToNeo4j(number);
@@ -770,7 +759,7 @@ async function formGetProductByPerson() {
   var response = null;
   switch (BDD) {
     case "sql":
-      response = await getProductByPersonMySQL(firstName, lastName, profondeur);
+      response = await getProductByPersonSQL(firstName, lastName, profondeur);
       break;
     case "neo4j":
       response = await getProductByPersonNeo4j(firstName, lastName, profondeur);
@@ -807,7 +796,7 @@ async function cleanBDD() {
   var response = null;
   switch (BDD) {
     case "sql":
-      response = await cleanMySQLBDD();
+      response = await cleanSQLBDD();
       break;
     case "neo4j":
       response = await cleanNeo4jBDD();
@@ -845,7 +834,7 @@ async function formGetPersonWithProduct() {
   var response = null;
   switch (BDD) {
     case "sql":
-      response = await getPersonWithProductMySQL(productName, profondeur);
+      response = await getPersonWithProductSQL(productName, profondeur);
       break;
     case "neo4j":
       response = await getPersonWithProductNeo4J(productName, profondeur);
@@ -887,7 +876,7 @@ async function formGetProductWithProductAndPerson() {
   var response = null;
   switch (BDD) {
     case "sql":
-      response = await getProductWithProductAndPersonMySQL(
+      response = await getProductWithProductAndPersonSQL(
         firstName,
         lastName,
         productName,
